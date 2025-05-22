@@ -3,16 +3,27 @@ import "./header.css"
 const Header = () => {
     return (
         <>
-            <div className="header">
-                <h4>header</h4>
-            </div>
-            <table border="1" className="mainPage">
-                <tr>
-                    <th>HOME PAGE</th>
-                    <th>topic</th>
-                    <th>место для логотипа</th>
-                </tr>
-            </table>
+            <header className="header">
+                <div className="header-left">
+                    <a href="#" className="home">Home</a>
+                    <span className="logo">🐝</span>
+                </div>
+
+                <div className="header-center">
+                    <div className="search-wrapper">
+                        <span className="search-icon">🔍</span>
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="Search..."
+                        />
+                    </div>
+                </div>
+
+                <div className="header-right">
+                    <a href="#" className="login-button">Log In</a>
+                </div>
+            </header>
         </>
     );
 };
