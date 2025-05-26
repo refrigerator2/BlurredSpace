@@ -1,6 +1,16 @@
 import "./header.css"
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
+    const [clicked, setClicked] = useState(false);
+    const onPress = () => {
+        setClicked(true);
+    }
+    if (clicked) {
+        navigate('/login');
+    }
     return (
         <>
             <header className="header">
@@ -21,7 +31,7 @@ const Header = () => {
                 </div>
 
                 <div className="header-right">
-                    <a href="#" className="login-button">Log In</a>
+                    <button className="login-button" onClick={onPress}>Log In</button>
                 </div>
             </header>
         </>

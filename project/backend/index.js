@@ -1,95 +1,101 @@
-import 'dotenv/config'
-
+import 'dotenv/config';
 import { Sequelize } from 'sequelize';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
-import { User } from './models/User.js';
-import {Thread} from './models/Thread.js';
-import {Message} from './models/message.js';
-import bcrypt from 'bcrypt'
+import User from './models/User.js';
+import Thread from './models/Thread.js';
+import Message from './models/message.js';
+import bcrypt from 'bcrypt';
 
-User.sync()
-
-const sequelize = new Sequelize(`${process.env.PGDBURL}`, {
+// Создаём и инициализируем Sequelize
+const sequelize = new Sequelize(process.env.PGDBURL, {
     dialect: 'postgres',
 });
 
 const app = Fastify();
+
+// Регистрируем CORS
 await app.register(cors, {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
 });
-async function start() {
-    try {
-        await sequelize.authenticate();
-        console.log('✅ Подключено к БД');
 
-        await app.listen({ port: process.env.PORT || 4004 });
-        console.log(`🚀 Сервер запущен: http://localhost:${process.env.PORT || 4004}`);
-    } catch (err) {
-        console.error('❌ Ошибка:', err);
-        process.exit(1);
-    }
-}
-app.post('/login', async (req, res) => {
-    const {username, password} = req.body;
-    try{
-        const user = await User.findOne({where: username});
-        if(user && await bcrypt.compare(password, user.password)) {
+// Синхронизируем модели после создания sequelize
+await sequelize.authenticate();
+console.log('✅ Подключено к БД');
+
+await User.sync();
+await Message.sync();
+await Thread.sync();
+
+app.post('/login', async (request, reply) => {
+    const { username, password } = request.body;
+    console.log(username);
+    try {
+        const user = await User.findOne({ where: { nickname: username } });
+
+        if (user && await bcrypt.compare(password, user.password)) {
             const userData = {
-                username: user.username,
-                password: user.password,
+                nickname: user.nickname,
                 createdAt: user.created_at,
             };
-            res.status(200).json({ message: 'Login successful', userData });
+            return reply.status(200).send({ message: 'Login successful', userData });
         } else {
-            res.status(401).json({ error: 'Invalid credentials' });
+            return reply.status(401).send({ error: 'Invalid credentials' });
         }
-    }catch(err){
-        console.log(err);
+    } catch (err) {
+        console.error(err);
+        return reply.status(500).send({ error: 'Server error' });
     }
-})
+});
 
-app.post('/newthread', async (req, res) => {
-    const { title, user } = req.body;
+app.post('/newthread', async (request, reply) => {
+    const { title, user } = request.body;
 
     if (!title || !user) {
-        return res.status(400).json({ error: 'Не указаны обязательные поля: title или user' });
+        return reply.status(400).send({ error: 'Undefined title or username' });
     }
 
     try {
         const thread = await Thread.create({
-            title: title,
+            title,
             created_by: user,
             created_at: new Date(),
         });
 
-        res.status(201).json({ message: 'Тема создана', thread });
+        return reply.status(201).send({ message: 'Topic created', thread });
     } catch (err) {
-        console.error('Ошибка при создании темы:', err);
-        res.status(500).json({ error: 'Ошибка сервера' });
+        console.error('Error while creating topic:', err);
+        return reply.status(500).send({ error: 'server error' });
     }
 });
-app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+
+app.post('/register', async (request, reply) => {
+    const { username, password } = request.body;
     if (!username || !password) {
-        return res.status(400).json({error: "Username or Password not entered"});
+        return reply.status(400).send({ error: 'Username or Password not entered' });
     }
-    const user = await User.findOne({where: username});
-    if(user){
-        return res.status(401).json({error: "User is already existing"})
+    const user = await User.findOne({ where: { nickname: username } });
+    if (user) {
+        return reply.status(401).send({ error: 'User is already existing' });
     }
-    try{
-        const newuser = await User.create({
-            username: username,
-            password: password,
-            createdAt: new Date(),
-        })
-        res.status(200).json({message: "User created successfully"})
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({
+            nickname: username,
+            password: hashedPassword,
+            created_at: new Date(),
+        });
+        return reply.status(200).send({ message: 'User created successfully' });
+    } catch (err) {
+        console.error(err);
+        return reply.status(500).send({ error: 'Server error' });
     }
-    catch(err){
-        console.log(err);
-    }
-})
-start();
+});
+
+// Запуск сервера
+const PORT = process.env.PORT || 4004;
+app.listen({ port: PORT }).then(() => {
+    console.log(`🚀 Server: http://localhost:${PORT}`);
+});
