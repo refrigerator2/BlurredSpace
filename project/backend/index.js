@@ -51,16 +51,17 @@ app.post('/login', async (request, reply) => {
 });
 
 app.post('/newthread', async (request, reply) => {
-    const { title, user } = request.body;
-
-    if (!title || !user) {
+    const { title, description, username } = request.body;
+    console.log(request.body);
+    if (!title || !username) {
         return reply.status(400).send({ error: 'Undefined title or username' });
     }
 
     try {
         const thread = await Thread.create({
-            title,
-            created_by: user,
+            title: title,
+            description: description,
+            created_by: username,
             created_at: new Date(),
         });
 

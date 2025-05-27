@@ -5,11 +5,18 @@ import {useNavigate} from "react-router-dom";
 const Header = () => {
     const navigate = useNavigate();
     const [clicked, setClicked] = useState(false);
+    const [thread, setThread] = useState(false);
     const onPress = () => {
         setClicked(true);
     }
+    const handleThread = () => {
+        setThread(true);
+    }
     if (clicked) {
         navigate('/login');
+    }
+    if (thread) {
+        navigate('/threadcreate');
     }
     return (
         <>
@@ -29,7 +36,9 @@ const Header = () => {
                         />
                     </div>
                 </div>
-
+                <div>
+                    <button onClick={handleThread}>Create thread</button>
+                </div>
                 <div className="header-right">
                     <button className="login-button" onClick={onPress}>Log In</button>
                 </div>

@@ -14,16 +14,17 @@ const Thread = sequelize.define('Thread', {
         allowNull: false,
     },
     created_by: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: User,
-            key: 'id',
-        },
+        type: DataTypes.STRING,
     },
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
     },
+    description:{
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: '',
+    }
 }, {
     tableName: 'threads',
     timestamps: false,

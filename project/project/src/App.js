@@ -6,6 +6,7 @@ import {Login} from "./mainPage/Login/Login"
 import { Routes, Route } from 'react-router-dom';
 import { BrowserRouter } from 'react-router-dom'
 import {Registration} from "./mainPage/Registration/registration";
+import {ThreadCreator} from "./mainPage/ThreadCreater/ThreadCreator";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
+            <Route path="/threadcreate" element={<ThreadCreator />}/>
         </Routes>
     );
 }
