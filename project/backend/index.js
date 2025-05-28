@@ -96,8 +96,18 @@ app.post('/register', async (request, reply) => {
         return reply.status(500).send({ error: 'Server error' });
     }
 });
+app.get('/threads', async (request, reply) => {
+    try {
+        const threads = await Thread.findAll({
+            order: [['created_at', 'DESC']] 
+        });
+        reply.send(threads);
+    } catch (err) {
+        console.error('Ошибка при получении тредов:', err);
+        reply.status(500).send({ error: 'Server error' });
+    }
+});
 
-// Запуск сервера
 const PORT = process.env.PORT || 4004;
 app.listen({ port: PORT }).then(() => {
     console.log(`🚀 Server: http://localhost:${PORT}`);
