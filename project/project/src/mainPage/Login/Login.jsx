@@ -1,6 +1,6 @@
-import './Login.css'
-import {useNavigate} from 'react-router-dom'
-import {useState} from 'react'
+import './Login.css';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const auth = async (username, password) => {
     try {
@@ -12,19 +12,10 @@ const auth = async (username, password) => {
 
         if (resUser.ok) {
             const user = await resUser.json();
-            if (user) {
-                console.log('Auth passed');
-                // localStorage.setItem('authToken', pat.token);
-                return user;
-            } else {
-                console.error('Invalid user');
-                return null;
-            }
+            return user || null;
         }
 
-        console.log('No such user');
         return null;
-
     } catch (error) {
         console.error('Error during login:', error);
         return null;
@@ -39,9 +30,8 @@ export const Login = () => {
 
     const handleClick = async () => {
         const res = await auth(username, password);
-        if (res === null) {
+        if (!res) {
             setError('Invalid username or password');
-            console.log("Invalid login");
         } else {
             sessionStorage.setItem('username', username);
             navigate('/');
@@ -49,13 +39,47 @@ export const Login = () => {
     };
 
     return (
-        <div className="login">
-            <input onChange={(e) => setUsername(e.target.value)} value={username} placeholder="Username" />
-            <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder="Password" />
-            <button onClick={handleClick}>Login</button>
-            {error && <div style={{ color: 'red' }}>{error}</div>}
-            <div  style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
-                  onClick={() => navigate('/register')}>regist</div>
+        <div className="login-page-wrapper">
+            <div className="login-page">
+                <div className="login-box">
+                    <span className="login-logo">🐝</span>
+                    <div className="login-header">
+                        <h1>Sign in to BlurredSpace</h1>
+                    </div>
+                    <div className="login-form">
+                        <input
+                            onChange={(e) => setUsername(e.target.value)}
+                            value={username}
+                            placeholder="Username"
+                        />
+                        <input
+                            type="password"
+                            onChange={(e) => setPassword(e.target.value)}
+                            value={password}
+                            placeholder="Password"
+                        />
+                        <button onClick={handleClick}>Sign in</button>
+                        {error && <div className="error">{error}</div>}
+                    </div>
+                    <div className="login-footer">
+                        <div className="nav-link" onClick={() => navigate('/register')}>
+                            Create an account
+                        </div>
+                        <div className="nav-link" onClick={() => navigate('/')}>
+                            Back to Home
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer className="footer-in-login">
+                <div className="footer-links-in-login">
+                    <a href="#">Terms and rules</a>
+                    <a href="#">Privacy policy</a>
+                    <a href="#">Help</a>
+                    <a href="#">Home</a>
+                </div>
+            </footer>
         </div>
     );
 };

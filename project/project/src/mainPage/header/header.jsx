@@ -36,8 +36,8 @@ const Header = () => {
                         />
                     </div>
                 </div>
-                <div>
-                    <button onClick={handleThread}>Create thread</button>
+                <div className="header-right">
+                    <button className="login-button" onClick={handleThread}>Create thread</button>
                 </div>
                 <div className="header-right">
                     <button className="login-button" onClick={onPress}>Log In</button>

@@ -7,6 +7,8 @@ import Thread from './models/Thread.js';
 import Message from './models/message.js';
 import bcrypt from 'bcrypt';
 
+console.log(process.env)
+
 // Создаём и инициализируем Sequelize
 const sequelize = new Sequelize(process.env.PGDBURL, {
     dialect: 'postgres',

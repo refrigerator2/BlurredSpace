@@ -1,0 +1,144 @@
+.thread-creator-page {
+    background-color: #2c2f36;
+    color: #c9d1d9;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.thread-creator-box {
+    background-color: #161b22;
+    padding: 32px;
+    border-radius: 6px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    width: 50vw; /* Half of screen width */
+    max-width: 700px;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thread-creator-header h1 {
+    font-size: 24px;
+    color: #f0f6fc;
+    margin-bottom: 24px;
+}
+
+.thread-creator-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.thread-creator-form input.title-input {
+    width: 95%;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font-size: 16px;
+}
+
+.thread-creator-form textarea.description-input {
+    width: 95%;
+    height: 200px;
+    padding: 16px;
+    margin-bottom: 16px;
+    resize: vertical;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    background-color: #0d1117;
+    color: #c9d1d9;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.thread-creator-form input::placeholder,
+.thread-creator-form textarea::placeholder {
+    color: #8b949e;
+}
+
+.thread-creator-form button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #238636;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.thread-creator-form button:hover {
+    background-color: #2ea043;
+}
+
+.thread-creator-form .error {
+    color: #ff7b72;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.thread-creator-footer {
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+
+.thread-creator-footer .nav-link {
+    color: #58a6ff;
+    font-size: 13px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.thread-creator-footer .nav-link:hover {
+    text-decoration: underline;
+}
+
+.thread-creator-logo {
+    font-size: 24px;
+}
+
+.footer-in-thread-creator {
+    background-color: #2c2f36;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+.footer-links-in-thread-creator {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-links-in-thread-creator a {
+    display: inline-block;
+    padding: 8px 12px;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.footer-in-thread-creator a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-in-thread-creator a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
