@@ -35,9 +35,9 @@ const MainPage = () => {
             <div className="mainPage">
                 <div className="main">
                     {loading ? (
-                        <p>Loading...</p>
+                        <p className="loading">Загрузка...</p>
                     ) : threads.length === 0 ? (
-                        <p>Zero threads</p>
+                        <p className="zero-threads">Тредов пока нет</p>
                     ) : (
                         <ul className="threadList">
                             {threads.map((thread) => (
@@ -45,10 +45,9 @@ const MainPage = () => {
                                     key={thread.id}
                                     className="threadItem"
                                     onClick={() => handleThreadClick(thread.id)}
-                                    style={{ cursor: "pointer", marginBottom: "16px" }}
                                 >
                                     <h2>{thread.title}</h2>
-                                    <p>{thread.description}</p>
+                                    {thread.description && <p>{thread.description}</p>}
                                     <p className="createdBy">Автор: {thread.created_by}</p>
                                     <p className="createdAt">Создан: {new Date(thread.created_at).toLocaleString()}</p>
                                 </li>

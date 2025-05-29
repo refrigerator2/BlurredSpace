@@ -44,26 +44,6 @@ export const ThreadCreator = () => {
 
     return (
         <>
-            <header className="header">
-                <div className="header-left">
-                    <a href="#" className="home">Home</a>
-                    <span className="logo">🐝</span>
-                </div>
-
-                <div className="header-center"> {/* тоже самое, оно тут не нужно, новый хедер надо мб*/}
-                    <div className="search-wrapper">
-                        <span className="search-icon">🔍?</span>
-                        <input
-                            type="text"
-                            className="search-input"
-                            placeholder="Search..."
-                        />
-                    </div>
-                </div>
-                <div className="header-right">
-                    <button className="login-button">Account?</button>   {/* тут вопросы, исправь надо*/}
-                </div>
-            </header>
             <div className="thread-creator-page-wrapper">
                 <div className="thread-creator-page">
                     <div className="thread-creator-box">
