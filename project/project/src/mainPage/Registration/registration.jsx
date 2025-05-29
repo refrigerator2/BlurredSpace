@@ -1,26 +1,25 @@
 import './registration.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const reg = async (username, password) => {
     try {
-        const resUser = await fetch('http://localhost:4000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+        const resUser = await axios.post('http://localhost:4000/register', {
+           username,
+            password,
         });
-
-        if (resUser.ok) {
-            const user = await resUser.json();
+        const user = resUser.data;
             if (user === null) {
                 console.log('Registration failed');
+                return null;
             } else {
                 console.log('Registration passed');
                 return user;
             }
-        }
     } catch (err) {
         console.log(err);
+        return null;
     }
 };
 
@@ -57,19 +56,22 @@ export const Registration = () => {
                     </div>
                     <div className="registration-form">
                         <input
-                            onChange={(e) => setUsername(e.target.value)}
+                            onChange={(e) => {setUsername(e.target.value)
+                                setError(null)}}
                             value={username}
                             placeholder="Username"
                         />
                         <input
                             type="password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {setPassword(e.target.value)
+                                setError(null)}}
                             value={password}
                             placeholder="Password"
                         />
                         <input
                             type="password"
-                            onChange={(e) => setCheckPassword(e.target.value)}
+                            onChange={(e) => {setCheckPassword(e.target.value)
+                                setError(null)}}
                             value={checkPassword}
                             placeholder="Repeat Password"
                         />

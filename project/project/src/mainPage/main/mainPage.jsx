@@ -2,17 +2,19 @@ import "./mainPage.css";
 import Header from "../header/header";
 import Footer from "../footer/footer";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const MainPage = () => {
     const [threads, setThreads] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchThreads = async () => {
             try {
-                const response = await fetch("http://localhost:4000/threads");
-                const data = await response.json();
-                setThreads(data);
+                const response = await axios.get("http://localhost:4000/threads");
+                setThreads(response.data);
             } catch (error) {
                 console.error("Ошибка при получении тредов:", error);
             } finally {
@@ -23,24 +25,35 @@ const MainPage = () => {
         fetchThreads();
     }, []);
 
+    const handleThreadClick = (id) => {
+        navigate(`/thread/${id}`);
+    };
+
     return (
         <>
             <Header />
             <div className="mainPage">
                 <div className="main">
                     {loading ? (
-                        <p>Загрузка тредов...</p>
+                        <p>Loading...</p>
                     ) : threads.length === 0 ? (
-                        <p>Тредов пока нет.</p>
+                        <p>Zero threads</p>
                     ) : (
-                        threads.map((thread) => (
-                            <div key={thread.id} className="threadCard">
-                                <h2>{thread.title}</h2>
-                                <p>{thread.description}</p>
-                                <p className="createdBy">Автор: {thread.created_by}</p>
-                                <p className="createdAt">Создан: {new Date(thread.created_at).toLocaleString()}</p>
-                            </div>
-                        ))
+                        <ul className="threadList">
+                            {threads.map((thread) => (
+                                <li
+                                    key={thread.id}
+                                    className="threadItem"
+                                    onClick={() => handleThreadClick(thread.id)}
+                                    style={{ cursor: "pointer", marginBottom: "16px" }}
+                                >
+                                    <h2>{thread.title}</h2>
+                                    <p>{thread.description}</p>
+                                    <p className="createdBy">Автор: {thread.created_by}</p>
+                                    <p className="createdAt">Создан: {new Date(thread.created_at).toLocaleString()}</p>
+                                </li>
+                            ))}
+                        </ul>
                     )}
                 </div>
             </div>

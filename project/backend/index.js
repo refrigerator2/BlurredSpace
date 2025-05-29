@@ -6,15 +6,20 @@ import User from './models/User.js';
 import Thread from './models/Thread.js';
 import Message from './models/message.js';
 import bcrypt from 'bcrypt';
+import req from "express/lib/request.js";
 
 console.log(process.env)
 
-// Создаём и инициализируем Sequelize
 const sequelize = new Sequelize(process.env.PGDBURL, {
     dialect: 'postgres',
 });
 
 const app = Fastify();
+User.hasMany(Message, { foreignKey: 'user_id' });
+Message.belongsTo(User, { foreignKey: 'user_id' });
+
+Thread.hasMany(Message, { foreignKey: 'thread_id' });
+Message.belongsTo(Thread, { foreignKey: 'thread_id' });
 
 // Регистрируем CORS
 await app.register(cors, {
@@ -107,7 +112,70 @@ app.get('/threads', async (request, reply) => {
         reply.status(500).send({ error: 'Server error' });
     }
 });
+app.get('/thread/:id', async (request, reply) => {
+    try{
+        const thread_id = request.params.id
+        const thread = await Thread.findOne({where: {id: thread_id}});
+        console.log(thread, thread_id)
+        if (!thread) {
+            reply.status(404).send({ error: 'Thread not found' });
+        }
+        else{
+            reply.status(200).send(thread);
+        }
+    }catch(err){
+        console.log(err);
+        reply.status(500).send({ error: 'Server error' });
+    }
+})
+app.post('/thread/:id/message', async (request, reply) => {
+    try {
+        const thread_id = request.params.id;
+        const { username, content } = request.body;
+        console.log(thread_id, username, content);
+        if (!content || !username) {
+            return reply.status(400).send({ error: 'Missing content or username' });
+        }
 
+        const user = await User.findOne({ where: { nickname: username } });
+
+        if (!user) {
+            return reply.status(404).send({ error: 'User not found' });
+        }
+
+        const message = await Message.create({
+            thread_id,
+            user_id: user.id,
+            content,
+        });
+
+        reply.status(201).send(message);
+    } catch (err) {
+        console.error(err);
+        reply.status(500).send({ error: 'Server error' });
+    }
+});
+app.get('/thread/:id/allmessages', async (request, reply) => {
+    try {
+        const thread_id = request.params.id
+        if (!thread_id) {
+            return reply.status(404).send({ error: 'Server didnt get id' });
+        }
+        const messages = await Message.findAll({
+            where: { thread_id: thread_id },
+            include: [{
+                model: User,
+                attributes: ['nickname'],
+            }],
+            order: [['created_at', 'ASC']],
+        });
+        console.log(messages);
+        reply.status(200).send(messages);
+    }
+    catch (err) {
+        console.error(err);
+    }
+})
 const PORT = process.env.PORT || 4004;
 app.listen({ port: PORT }).then(() => {
     console.log(`🚀 Server: http://localhost:${PORT}`);

@@ -6,11 +6,15 @@ const Header = () => {
     const navigate = useNavigate();
     const [clicked, setClicked] = useState(false);
     const [thread, setThread] = useState(false);
+    const [main, setMain] = useState(false);
     const onPress = () => {
         setClicked(true);
     }
     const handleThread = () => {
         setThread(true);
+    }
+    const handleMain = () => {
+        setMain(true);
     }
     if (clicked) {
         navigate('/login');
@@ -18,11 +22,14 @@ const Header = () => {
     if (thread) {
         navigate('/threadcreate');
     }
+    if (main) {
+        navigate('/');
+    }
     return (
         <>
             <header className="header">
                 <div className="header-left">
-                    <a href="#" className="home">Home</a>
+                    <a href="#" className="home" onClick={handleMain}>Home</a>
                     <span className="logo">🐝</span>
                 </div>
 

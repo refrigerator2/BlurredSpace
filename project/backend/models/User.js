@@ -1,7 +1,6 @@
-// models/User.js
 
 import { DataTypes } from 'sequelize';
-import sequelize from './db.js'; // убедись, что у тебя есть подключение к БД
+import sequelize from './db.js';
 
 const User = sequelize.define('User', {
     id: {
@@ -25,5 +24,4 @@ const User = sequelize.define('User', {
     tableName: 'users',
     timestamps: false,
 });
-
 export default User;

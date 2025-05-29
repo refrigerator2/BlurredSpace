@@ -1,27 +1,21 @@
 import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 
 const auth = async (username, password) => {
     try {
-        const resUser = await fetch('http://localhost:4000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
+        const response = await axios.post('http://localhost:4000/login', {
+            username,
+            password,
         });
 
-        if (resUser.ok) {
-            const user = await resUser.json();
-            return user || null;
-        }
-
-        return null;
+        return response.data || null;
     } catch (error) {
         console.error('Error during login:', error);
         return null;
     }
 };
-
 export const Login = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
