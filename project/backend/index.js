@@ -30,7 +30,7 @@ await app.register(cors, {
 
 // Синхронизируем модели после создания sequelize
 await sequelize.authenticate();
-console.log('✅ Подключено к БД');
+console.log('✅ Connected to db');
 
 await User.sync();
 await Message.sync();
