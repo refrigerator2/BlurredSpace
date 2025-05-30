@@ -1,7 +1,7 @@
 .mainPage {
     background-color: #2c2f36;
     min-height: 100vh;
-    padding-top: 80px; /* отступ под фиксированный header */
+    /*padding-top: 80px; !* отступ под фиксированный header *!*/
     color: #c9d1d9;
     display: flex;
     justify-content: center;

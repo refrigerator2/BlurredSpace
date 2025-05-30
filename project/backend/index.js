@@ -95,7 +95,7 @@ app.post('/register', async (request, reply) => {
             password: hashedPassword,
             created_at: new Date(),
         });
-        return reply.status(200).send({ message: 'User created successfully' });
+        return reply.status(200).send({ message: 'User created successfully', newUser });
     } catch (err) {
         console.error(err);
         return reply.status(500).send({ error: 'Server error' });

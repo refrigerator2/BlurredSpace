@@ -23,7 +23,7 @@ const MainPage = () => {
         };
 
         fetchThreads();
-    }, []);
+    }, [threads]);
 
     const handleThreadClick = (id) => {
         navigate(`/thread/${id}`);
