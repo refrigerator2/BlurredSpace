@@ -8,13 +8,27 @@ import axios from "axios";
 const MainPage = () => {
     const [threads, setThreads] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [threadsFilter, setThreadsFilter] = useState("all");
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchThreads = async () => {
             try {
                 const response = await axios.get("http://localhost:4000/threads");
-                setThreads(response.data);
+                let data = response.data;
+
+                // Фильтрация по выбранному фильтру
+                if (threadsFilter === "popular") {
+                    data = [...data].sort((a, b) => b.message_count - a.message_count);
+                } else if (threadsFilter === "recent") {
+                    data = [...data].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+                } else if (threadsFilter === "oldest") {
+                    data = [...data].sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+                } else if (threadsFilter !== "all") {
+                    data = data.filter(t => t.topic === threadsFilter);
+                }
+
+                setThreads(data);
             } catch (error) {
                 console.error("Ошибка при получении тредов:", error);
             } finally {
@@ -23,7 +37,7 @@ const MainPage = () => {
         };
 
         fetchThreads();
-    }, [threads]);
+    }, [threadsFilter]);
 
     const handleThreadClick = (id) => {
         navigate(`/thread/${id}`);
@@ -33,11 +47,26 @@ const MainPage = () => {
         <>
             <Header />
             <div className="mainPage">
+                <div className="sidebar">
+                    <h3>Filters</h3>
+                    <button onClick={() => setThreadsFilter("all")}>All</button>
+                    <button onClick={() => setThreadsFilter("popular")}>By Popularity</button>
+                    <button onClick={() => setThreadsFilter("recent")}>Recent</button>
+                    <button onClick={() => setThreadsFilter("oldest")}>Oldest</button>
+                    <hr />
+                    <p>Topics:</p>
+                    <button onClick={() => setThreadsFilter("sports")}>Sports</button>
+                    <button onClick={() => setThreadsFilter("technology")}>Technology</button>
+                    <button onClick={() => setThreadsFilter("animals")}>Animals</button>
+                    <button onClick={() => setThreadsFilter("movies")}>Movies</button>
+                    <button onClick={() => setThreadsFilter("music")}>Music</button>
+                </div>
+
                 <div className="main">
                     {loading ? (
-                        <p className="loading">Загрузка...</p>
+                        <p className="loading">Loading...</p>
                     ) : threads.length === 0 ? (
-                        <p className="zero-threads">Тредов пока нет</p>
+                        <p className="zero-threads">No threads yet</p>
                     ) : (
                         <ul className="threadList">
                             {threads.map((thread) => (
@@ -48,8 +77,8 @@ const MainPage = () => {
                                 >
                                     <h2>{thread.title}</h2>
                                     {thread.description && <p>{thread.description}</p>}
-                                    <p className="createdBy">Автор: {thread.created_by}</p>
-                                    <p className="createdAt">Создан: {new Date(thread.created_at).toLocaleString()}</p>
+                                    <p className="createdBy">Author: {thread.created_by}</p>
+                                    <p className="createdAt">Created: {new Date(thread.created_at).toLocaleString()}</p>
                                 </li>
                             ))}
                         </ul>

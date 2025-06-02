@@ -114,6 +114,7 @@ export const ThreadPage = () => {
     const [res, setRes] = useState(null);
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const username = sessionStorage.getItem("username") || null;
 
     const { id } = useParams();
 
@@ -182,11 +183,17 @@ export const ThreadPage = () => {
 
                             <div className="thread-messages">
                                 {messages.length > 0 ? (
-                                    messages.map((msg, index) => (
-                                        <div key={index} className="message-item">
-                                            <strong>{msg.User?.nickname || 'Unknown'}</strong>: {msg.content}
-                                        </div>
-                                    ))
+                                    messages.map((msg, index) => {
+                                        const isOwnMessage = msg.User?.nickname === username;
+                                        return (
+                                            <div
+                                                key={index}
+                                                className={`message-item ${isOwnMessage ? "right" : "left"}`}
+                                            >
+                                                <strong>{msg.User?.nickname || "Unknown"}</strong>: {msg.content}
+                                            </div>
+                                        );
+                                    })
                                 ) : (
                                     <p className="no-messages">No messages yet...</p>
                                 )}

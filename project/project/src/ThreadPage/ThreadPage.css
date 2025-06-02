@@ -95,3 +95,15 @@
     color: #c9d1d9;
 }
 
+.message-item.left {
+    align-self: flex-start;
+    text-align: left;
+    border-top-left-radius: 4px;
+}
+
+.message-item.right {
+    align-self: flex-end;
+    text-align: right;
+    border-top-right-radius: 4px;
+}
+

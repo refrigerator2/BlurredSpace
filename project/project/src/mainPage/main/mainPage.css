@@ -57,3 +57,52 @@
     color: #8b949e;
     margin-top: 40px;
 }
+.mainPage {
+    background-color: #2c2f36;
+    min-height: 100vh;
+    color: #c9d1d9;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 80px;
+}
+
+.sidebar {
+    width: 220px;
+    background-color: #161b22;
+    padding: 16px;
+    margin-right: 24px;
+    border-radius: 8px;
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.sidebar h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #f0f6fc;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    background: none;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    margin-bottom: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.sidebar button:hover {
+    background-color: #21262d;
+}
+
+.main {
+    flex: 1;
+    max-width: 900px;
+    padding: 24px;
+}
