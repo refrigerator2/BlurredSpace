@@ -17,7 +17,6 @@ const MainPage = () => {
                 const response = await axios.get("http://localhost:4000/threads");
                 let data = response.data;
 
-                // Фильтрация по выбранному фильтру
                 if (threadsFilter === "popular") {
                     data = [...data].sort((a, b) => b.message_count - a.message_count);
                 } else if (threadsFilter === "recent") {

@@ -152,17 +152,16 @@ export const ThreadPage = () => {
         if (!message.trim()) return;
 
         const username = sessionStorage.getItem("username") || "Guest";
-
         try {
             const res = await axios.post(`http://localhost:4000/thread/${id}/message`, {
                 content: message,
                 username,
                 id,
             });
-            if (res.status === 200) {
+            
                 setMessages((prev) => [...prev, res.data]);
                 setMessage("");
-            }
+
         } catch (e) {
             console.error("Failed to send message:", e);
         }
