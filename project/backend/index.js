@@ -7,6 +7,7 @@ import Thread from './models/Thread.js';
 import Message from './models/message.js';
 import bcrypt from 'bcrypt';
 import req from "express/lib/request.js";
+import fastifySocketIO from 'fastify-socket.io'
 
 console.log(process.env)
 
@@ -20,15 +21,43 @@ Message.belongsTo(User, { foreignKey: 'user_id' });
 
 Thread.hasMany(Message, { foreignKey: 'thread_id' });
 Message.belongsTo(Thread, { foreignKey: 'thread_id' });
+await app.register(fastifySocketIO);
 
-// Регистрируем CORS
+app.io.on('connection', (socket) => {
+    console.log(`Connected to ${socket.id}`);
+
+    socket.on('disconnect', () => {
+        console.log(`Disconnected from ${socket.id}`);
+    })
+    socket.on('join_thread', (thread_id) => {
+        socket.join(thread_id);
+    })
+    socket.on('send_message', async ({ threadId, username, content }) => {
+        const user = await User.findOne({ where: { nickname: username } });
+        if (!user) return;
+
+        const message = await Message.create({
+            thread_id: threadId,
+            user_id: user.id,
+            content,
+        });
+
+        app.io.to(threadId).emit('receive_message', {
+            threadId,
+            content,
+            username,
+            created_at: message.created_at,
+        });
+    });
+
+})
+
 await app.register(cors, {
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
 });
 
-// Синхронизируем модели после создания sequelize
 await sequelize.authenticate();
 console.log('✅ Connected to db');
 
