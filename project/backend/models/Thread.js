@@ -24,6 +24,15 @@ const Thread = sequelize.define('Thread', {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue: '',
+    },
+    topic:{
+        type: DataTypes.STRING(255),
+        allowNull: true,
+    },
+    message_count:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
     }
 }, {
     tableName: 'threads',

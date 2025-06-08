@@ -42,6 +42,8 @@ app.io.on('connection', (socket) => {
             content,
         });
 
+        await Thread.increment('message_count', { where: { id: threadId } });
+
         app.io.to(threadId).emit('receive_message', {
             threadId,
             content,
@@ -87,26 +89,29 @@ app.post('/login', async (request, reply) => {
 });
 
 app.post('/newthread', async (request, reply) => {
-    const { title, description, username } = request.body;
-    console.log(request.body);
-    if (!title || !username) {
-        return reply.status(400).send({ error: 'Undefined title or username' });
+    const { title, description, username, topic } = request.body;
+
+    if (!title || !username || !topic) {
+        return reply.status(400).send({ error: 'Missing title, username or topic' });
     }
 
     try {
         const thread = await Thread.create({
-            title: title,
-            description: description,
+            title,
+            description: description || '',
             created_by: username,
             created_at: new Date(),
+            topic,
+            message_count: 0, // Инициализируем с нуля
         });
 
         return reply.status(201).send({ message: 'Topic created', thread });
     } catch (err) {
         console.error('Error while creating topic:', err);
-        return reply.status(500).send({ error: 'server error' });
+        return reply.status(500).send({ error: 'Server error' });
     }
 });
+
 
 app.post('/register', async (request, reply) => {
     const { username, password } = request.body;
@@ -177,7 +182,7 @@ app.post('/thread/:id/message', async (request, reply) => {
             user_id: user.id,
             content,
         });
-
+        await Thread.increment('message_count', { by: 1, where: { id: thread_id } });
         reply.status(201).send(message);
     } catch (err) {
         console.error(err);

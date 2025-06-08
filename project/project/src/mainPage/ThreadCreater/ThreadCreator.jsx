@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const createThread = async (username, title, description) => {
+const createThread = async (username, title, description, topic) => {
     try {
         const response = await axios.post('http://localhost:4000/newthread', {
             title,
             description,
             username,
+            topic,
         });
 
         if (response.status === 201) return response;
@@ -24,6 +25,7 @@ export const ThreadCreator = () => {
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [topic, setTopic] = useState('');
     const [error, setError] = useState(null);
 
     const username = sessionStorage.getItem('username') || 'Guest';
@@ -33,8 +35,12 @@ export const ThreadCreator = () => {
             setError('Title is required');
             return;
         }
+        if (!topic) {
+            setError('Please select a topic');
+            return;
+        }
 
-        const res = await createThread(username, title, description);
+        const res = await createThread(username, title, description, topic);
         if (res === null) {
             setError('Failed to create thread');
         } else {
@@ -64,6 +70,19 @@ export const ThreadCreator = () => {
                                 onChange={(e) => setDescription(e.target.value)}
                                 placeholder="Description (optional)"
                             />
+                            <select
+                                className="topic-select"
+                                value={topic}
+                                onChange={(e) => setTopic(e.target.value)}
+                            >
+                                <option value="">Select topic</option>
+                                <option value="sports">Sports</option>
+                                <option value="technology">Technology</option>
+                                <option value="animals">Animals</option>
+                                <option value="movies">Movies</option>
+                                <option value="music">Music</option>
+                            </select>
+
                             <button onClick={handleClick}>Create</button>
                             {error && <div className="error">{error}</div>}
                         </div>
