@@ -47,7 +47,7 @@ const MainPage = () => {
             <Header />
             <div className="mainPage">
                 <div className="sidebar">
-                    <h3>Filters</h3>
+                    <p>Filters</p>
                     <button onClick={() => setThreadsFilter("all")}>All</button>
                     <button onClick={() => setThreadsFilter("popular")}>By Popularity</button>
                     <button onClick={() => setThreadsFilter("recent")}>Recent</button>
