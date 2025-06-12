@@ -42,3 +42,23 @@
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
 }
+
+@media (max-width: 600px) {
+    .footer-container {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .footer-links {
+        gap: 12px;
+    }
+
+    .footer-links a {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    .footer {
+        padding: 16px;
+    }
+}

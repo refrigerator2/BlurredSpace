@@ -169,3 +169,61 @@
     border-color: #ccc;
     outline: none;
 }
+
+@media (max-width: 600px) {
+    .thread-creator-page {
+        padding: 10px;
+        align-items: flex-start;
+        height: auto;
+    }
+
+    .thread-creator-box {
+        width: 100%;
+        padding: 24px 16px;
+        border-radius: 6px;
+        box-shadow: none;
+        min-width: unset;
+    }
+
+    .thread-creator-header h1 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .thread-creator-form input.title-input,
+    .thread-creator-form textarea.description-input,
+    .topic-select {
+        width: 90%;
+        font-size: 16px;
+    }
+    .topic-select{
+        width: 100%;
+    }
+
+    .thread-creator-form textarea.description-input {
+        height: 160px;
+    }
+
+    .thread-creator-form button {
+        font-size: 16px;
+    }
+
+    .thread-creator-footer {
+        margin-top: 16px;
+        font-size: 14px;
+    }
+
+    .footer-in-thread-creator {
+        padding: 16px 10px;
+        font-size: 12px;
+    }
+
+    .footer-links-in-thread-creator {
+        gap: 10px;
+    }
+
+    .footer-links-in-thread-creator a {
+        padding: 6px;
+    }
+}
+

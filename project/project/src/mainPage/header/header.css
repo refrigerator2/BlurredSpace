@@ -126,3 +126,49 @@
     background-color: #555;
     border-radius: 3px;
 }
+
+@media (max-width: 600px) {
+    .header {
+        align-items: stretch;
+        padding: 10px 16px;
+        gap: 10px;
+    }
+
+    .header-left,
+    .header-right,
+    .header-center {
+        width: 20%;
+        justify-content: center;
+    }
+
+    .header-left,
+    .header-right {
+        justify-content: space-around;
+    }
+
+    .search-wrapper {
+        width: 40%;
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 14px;
+        padding: 10px 14px 10px 36px;
+    }
+
+    .dropdown {
+        width: 100%;
+        left: 0;
+        transform: none;
+        max-width: none;
+    }
+    .logo{
+        font-size: 16px;
+    }
+
+    .login-button, .home {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+}
+

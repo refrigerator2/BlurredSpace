@@ -96,3 +96,90 @@
 .sidebar button:hover {
     background-color: #21262d;
 }
+
+.filter-toggle {
+    display: none;
+    position: fixed;
+    top: 85px;
+    left: 16px;
+    z-index: 1001;
+    background-color: #161b22;
+    color: #fff;
+    border: 1px solid #30363d;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.mobile-sidebar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: -260px;
+    width: 240px;
+    height: 100%;
+    background-color: #161b22;
+    color: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1002;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+}
+
+.mobile-sidebar.active {
+    left: 0;
+}
+
+.mobile-sidebar button.close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 22px;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    body, html {
+        overflow-x: hidden;
+    }
+    .mainPage {
+        padding: 80px 16px 16px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        padding: 0;
+        margin-top: 40%;
+        width: 80%;
+    }
+
+    .threadItem {
+        padding: 16px;
+    }
+
+    .threadItem h2 {
+        font-size: 18px;
+    }
+
+    .threadItem p,
+    .createdBy,
+    .createdAt {
+        font-size: 14px;
+    }
+
+    .filter-toggle {
+        display: block;
+    }
+
+    .threadItem {
+        padding: 16px;
+    }
+}

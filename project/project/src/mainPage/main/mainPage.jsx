@@ -11,6 +11,9 @@ const MainPage = () => {
     const [threadsFilter, setThreadsFilter] = useState("all");
     const navigate = useNavigate();
 
+    //////////////
+    const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
     useEffect(() => {
         const fetchThreads = async () => {
             try {
@@ -42,9 +45,35 @@ const MainPage = () => {
         navigate(`/thread/${id}`);
     };
 
+    /////////////////
+    const handleFilterChange = (filter) => {
+        setThreadsFilter(filter);
+        setIsMobileSidebarOpen(false); // закрываем меню после выбора
+    };
+
     return (
         <>
             <Header />
+            <button className="filter-toggle" onClick={() => setIsMobileSidebarOpen(true)}>
+                ☰ Filters
+            </button>
+
+            <div className={`mobile-sidebar ${isMobileSidebarOpen ? "active" : ""}`}>
+                <button className="close-btn" onClick={() => setIsMobileSidebarOpen(false)}>×</button>
+                <p>Filters</p>
+                <button onClick={() => handleFilterChange("all")}>All</button>
+                <button onClick={() => handleFilterChange("popular")}>By Popularity</button>
+                <button onClick={() => handleFilterChange("recent")}>Recent</button>
+                <button onClick={() => handleFilterChange("oldest")}>Oldest</button>
+                <hr />
+                <p>Topics:</p>
+                <button onClick={() => handleFilterChange("sports")}>Sports</button>
+                <button onClick={() => handleFilterChange("technology")}>Technology</button>
+                <button onClick={() => handleFilterChange("animals")}>Animals</button>
+                <button onClick={() => handleFilterChange("movies")}>Movies</button>
+                <button onClick={() => handleFilterChange("music")}>Music</button>
+            </div>
+
             <div className="mainPage">
                 <div className="sidebar">
                     <p>Filters</p>
