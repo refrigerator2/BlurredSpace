@@ -50,7 +50,7 @@ const MainPage = () => {
         setThreadsFilter(filter);
         setIsMobileSidebarOpen(false); // закрываем меню после выбора
     };
-    ////////
+    //////////////
 
     return (
         <>
