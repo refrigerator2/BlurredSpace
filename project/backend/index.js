@@ -102,7 +102,7 @@ app.post('/newthread', async (request, reply) => {
             created_by: username,
             created_at: new Date(),
             topic,
-            message_count: 0, // Инициализируем с нуля
+            message_count: 0,
         });
 
         return reply.status(201).send({ message: 'Topic created', thread });

@@ -13,7 +13,7 @@
     padding: 32px;
     border-radius: 6px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-    width: 50vw; /* Half of screen width */
+    width: 50vw;
     max-width: 700px;
     min-width: 320px;
     display: flex;

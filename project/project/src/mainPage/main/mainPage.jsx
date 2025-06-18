@@ -11,7 +11,6 @@ const MainPage = () => {
     const [threadsFilter, setThreadsFilter] = useState("all");
     const navigate = useNavigate();
 
-    //////////////
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
     useEffect(() => {
@@ -32,7 +31,7 @@ const MainPage = () => {
 
                 setThreads(data);
             } catch (error) {
-                console.error("Ошибка при получении тредов:", error);
+                console.error("Error while getting threads:", error);
             } finally {
                 setLoading(false);
             }
@@ -45,12 +44,10 @@ const MainPage = () => {
         navigate(`/thread/${id}`);
     };
 
-    /////////////////
     const handleFilterChange = (filter) => {
         setThreadsFilter(filter);
-        setIsMobileSidebarOpen(false); // закрываем меню после выбора
+        setIsMobileSidebarOpen(false);
     };
-    //////////////
 
     return (
         <>
